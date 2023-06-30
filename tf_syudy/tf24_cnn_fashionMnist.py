@@ -1,27 +1,24 @@
-import numpy as np
-from keras.datasets import mnist
+from keras.datasets import fashion_mnist
 from keras.models import Sequential
 from keras.layers import Dense, Conv2D, Flatten, MaxPool2D, Dropout
 from keras.callbacks import EarlyStopping
+import matplotlib.pyplot as plt
 import time
 
-# 1 . 데이터
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
+# 1. 데이터
+(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 
 print(x_train.shape, y_train.shape) # (60000, 28, 28) (60000,)
-print(x_test.shape, y_test.shape)   # (10000, 28, 28) (10000,)
-
-print(x_train[0])
-print(y_train[0])
+print(x_test.shape, y_test.shape) # (10000, 28, 28) (10000,)
 
 # 시각화
-
-# import matplotlib.pyplot as plt
-
-# plt.imshow(x_train[0], 'gray')
+# plt.imshow(x_train[100], 'gray')
 # plt.show()
 
-# reshape // 채널 공간 1을 만들어주는 것
+# [실습] Conv2D 2개이상 사용, Dropout 사용, Maxpooling2D사용
+# accuracy = 0.9 이상, padding  = 'same' 사용
+
+# reshape
 x_train = x_train.reshape(60000, 28, 28, 1)
 x_test = x_test.reshape(10000, 28, 28, 1)
 
@@ -74,4 +71,3 @@ loss, acc = model.evaluate(x_test, y_test)
 print('loss : ', loss)
 print('acc: ', acc)
 print('걸린시간 : ', end_time)
-

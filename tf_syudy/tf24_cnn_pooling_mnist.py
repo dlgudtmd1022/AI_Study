@@ -2,6 +2,7 @@ import numpy as np
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Conv2D, Flatten
+from keras.callbacks import EarlyStopping
 import time
 
 # 1 . 데이터
@@ -39,9 +40,18 @@ model.compile(loss = 'sparse_categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
+earlyStopping = EarlyStopping(
+    monitor='val_loss',
+    mode='min',
+    verbose=1,
+    patience=5,
+    restore_best_weights=True
+)
 start_time = time.time()
 
 model.fit(x_train, y_train,
+          validation_batch_size=0.2,
+          callbacks=[earlyStopping],
           epochs=100,
           batch_size=32,
           verbose=1)
